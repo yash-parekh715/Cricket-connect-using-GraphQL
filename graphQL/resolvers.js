@@ -14,7 +14,7 @@ resolvers = {
     async addPlayer(
       _,
       {
-        PlayerInput: {
+        playerInput: {
           name: name,
           age: age,
           nationality: nationality,
@@ -36,7 +36,7 @@ resolvers = {
       try {
         const result = await newPlayer.save();
         console.log(`New Player added to the database : ${result._id}`);
-        return `New Player added to the database with id : ${result._id} \n`;
+        return newPlayer;
       } catch (err) {
         console.error(err);
         throw err;
@@ -45,14 +45,24 @@ resolvers = {
 
     async deletePlayer(_, { ID }) {
       const deleted = await player.deleteOne({ _id: ID });
-      return deleted;
+      if (deleted) {
+        return true;
+      }
+      return false;
     },
 
     async editPlayer(
       _,
       {
         ID,
-        PlayerEdit: { name, age, nationality, role, battingType, bowlingType },
+        playerInput: {
+          name: name,
+          age: age,
+          nationality: nationality,
+          role: role,
+          battingType: battingType,
+          bowlingType: bowlingType,
+        },
       }
     ) {
       const update = await player.updateOne(
@@ -66,7 +76,10 @@ resolvers = {
           bowlingType: bowlingType,
         }
       );
-      return update;
+      if (update) {
+        return true;
+      }
+      return false;
     },
   },
 };

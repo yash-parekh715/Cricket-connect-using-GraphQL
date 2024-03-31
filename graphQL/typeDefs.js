@@ -10,15 +10,6 @@ typeDefs = gql`
     bowlingType: String
   }
 
-  input playerEdit {
-    name: String
-    age: Int
-    nationality: String
-    role: String
-    battingType: String
-    bowlingType: String
-  }
-
   input playerInput {
     name: String
     age: Int
@@ -34,8 +25,8 @@ typeDefs = gql`
   }
 
   type Mutation {
-    addPlayer(PlayerInput: playerInput): player!
-    editPlayer(ID: ID!, PlayerEdit: playerEdit): Boolean
+    addPlayer(playerInput: playerInput): player!
+    editPlayer(ID: ID!, playerInput: playerInput): Boolean
     deletePlayer(ID: ID!): Boolean
   }
 `;
